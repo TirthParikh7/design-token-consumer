@@ -1,6 +1,8 @@
 .fixed-tokens-theme {
   --base-color-primary: #007BFF;
   --base-color-secondary: #6C757D;
+  --base-color-error: #6C757D;
+  --base-color-error-new: #6C757D;
   --base-color-success: #28A745;
   --base-spacing-button-padding: 12px 24px;
   --base-spacing-button-border-radius: 8px;
@@ -56,4 +58,5 @@
   --card-primary-border-color: #007BFF;
   --card-primary-border-width: 2px;
   --card-primary-border-style: solid;
+  --table-primary-color: #ff0000;
 }
