@@ -17,18 +17,25 @@ jobs:
 
       - name: Pull latest tokens from submodule
         run: |
-          git submodule update --remote --merge
+          git submodule update --init --force
+          cd figma-design-tokens
+          git fetch origin
+          git checkout origin/main -- .
+          cd ..
 
       - name: Debug path structure
         run: |
           echo "PWD: $(pwd)"
           ls -la
-          ls -la figma-design-tokens/output || echo "❌ Submodule output directory not found!"
+          echo "\nContents of figma-design-tokens:"
+          ls -la figma-design-tokens || echo "❌ figma-design-tokens directory not found!"
+          echo "\nContents of figma-design-tokens/output:"
+          ls -la figma-design-tokens/output || echo "❌ figma-design-tokens/output directory not found!"
 
       - name: Copy pre-built CSS to public folder
         run: |
           mkdir -p public/styles
-          cp figma-design-tokens/output/fixed-tokens.css public/styles/tokens.css
+          cp figma-design-tokens/output/fixed-token.css public/styles/tokens.css # Assuming singular 'token'
 
       - name: Commit & push changes
         run: |
