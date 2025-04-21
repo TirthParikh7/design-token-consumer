@@ -9,29 +9,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout consumer repo with submodules
+      - name: Checkout with submodules
         uses: actions/checkout@v3
         with:
           submodules: recursive
-          token: ${{ secrets.GH_PAT }} # 👈 Required if your submodule repo is private
+          token: ${{ secrets.GH_PAT }}  # Required if private repo
 
-      - name: Confirm submodule content exists
+      - name: Verify submodule exists and is populated
         run: |
+          echo "Checking submodule content..."
+          ls -la
           ls -la figma-design-tokens
+          ls -la figma-design-tokens/output || echo "No output dir yet"
 
-      - name: Install and build tokens
+      - name: Run token build scripts
+        working-directory: ./figma-design-tokens
         run: |
-          cd figma-design-tokens
           npm install
           node fixed-tokens.js
           node build.cjs
 
-      - name: Copy generated CSS
+      - name: Copy CSS into consumer public/styles
         run: |
           mkdir -p public/styles
           cp figma-design-tokens/output/fixed-token.css public/styles/tokens.css
 
-      - name: Commit & push updated CSS
+      - name: Commit and push updated CSS
         run: |
           git config user.name "TirthParikh7"
           git config user.email "tirth@contentenablers.com"
