@@ -23,7 +23,6 @@ jobs:
 
       - name: Install & run token scripts
         run: |
-          cd figma-design-tokens
           npm install
           node fixed-tokens.js
           node build.cjs
