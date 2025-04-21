@@ -9,20 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout consumer repo with submodules
+      - name: Checkout consumer repo with full submodules
         uses: actions/checkout@v3
         with:
-          submodules: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: recursive
+          token: ${{ secrets.GH_PAT }}
 
-      - name: Fix submodule to latest main
+      - name: Ensure submodule uses latest main branch
         run: |
           cd figma-design-tokens
           git fetch origin main
           git checkout main
-          git merge origin/main --allow-unrelated-histories
+          git pull origin main
 
-      - name: Install and Build Tokens
+      - name: Install dependencies & build tokens
         run: |
           cd figma-design-tokens
           npm install
