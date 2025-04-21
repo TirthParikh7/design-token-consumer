@@ -28,7 +28,7 @@ jobs:
       - name: Copy pre-built CSS to public folder
         run: |
           mkdir -p public/styles
-          cp figma-design-tokens/output/fixed-token.css public/styles/tokens.css
+          cp figma-design-tokens/output/fixed-tokens.css public/styles/tokens.css
 
       - name: Commit & push changes
         run: |
