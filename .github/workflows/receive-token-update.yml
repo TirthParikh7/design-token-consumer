@@ -9,42 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout with submodules
+      - name: Checkout consumer repo
         uses: actions/checkout@v3
         with:
           submodules: recursive
           token: ${{ secrets.GH_PAT }}  # Needed if the submodule repo is private
 
+      - name: Pull latest tokens from submodule
+        run: |
+          git submodule update --remote --merge
+
       - name: Debug path structure
         run: |
           echo "PWD: $(pwd)"
           ls -la
-          ls -la figma-design-tokens || echo "❌ Submodule not found!"
+          ls -la figma-design-tokens/output || echo "❌ Submodule output directory not found!"
 
-      - name: Install & run token scripts
-        working-directory: ./figma-design-tokens
-        run: |
-          echo "Current working directory (before npm): $(pwd)"
-          ls -la
-
-          echo "\nContents of node_modules (before npm):"
-          ls -la node_modules || echo "node_modules directory not found"
-
-          echo "\nRunning npm install..."
-          npm install
-
-          echo "\nCurrent working directory (after npm): $(pwd)"
-          ls -la
-
-          echo "\nContents of node_modules (after npm):"
-          ls -la node_modules || echo "node_modules directory not found"
-
-          echo "\nAttempting to run fixed-tokens.js..."
-          node fixed-tokens.js
-          echo "\nAttempting to run build.cjs..."
-          node build.cjs
-
-      - name: Copy CSS to public/styles
+      - name: Copy pre-built CSS to public folder
         run: |
           mkdir -p public/styles
           cp figma-design-tokens/output/fixed-token.css public/styles/tokens.css
@@ -54,5 +35,5 @@ jobs:
           git config user.name "TirthParikh7"
           git config user.email "tirth@contentenablers.com"
           git add public/styles/tokens.css
-          git commit -m "♻️ Auto-update token CSS" || echo "No changes to commit"
+          git commit -m "♻️ Update token CSS from submodule" || echo "No changes to commit"
           git push
