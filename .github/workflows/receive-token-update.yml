@@ -22,6 +22,7 @@ jobs:
           ls -la figma-design-tokens || echo "❌ Submodule not found!"
 
       - name: Install & run token scripts
+        working-directory: ./figma-design-tokens
         run: |
           npm install
           node fixed-tokens.js
