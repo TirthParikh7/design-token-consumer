@@ -1,0 +1,17 @@
+{
+  "name": "design-token-consumer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "postinstall": "node copy-tokens.js",
+  "watch:tokens": "node watch-tokens.js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "figma-design-tokens": "git+https://github.com/TirthParikh7/figma-design-tokens.git"
+  }
+}

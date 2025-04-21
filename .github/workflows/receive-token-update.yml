@@ -1,0 +1,36 @@
+name: Receive Token Update
+
+on:
+  repository_dispatch:
+    types: [tokens-updated]
+
+jobs:
+  update-tokens:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout consumer repo with submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Pull latest token changes
+        run: |
+          git submodule update --remote --merge
+          cd figma-design-tokens
+          npm install
+          node fixed-tokens.js
+          node build.cjs
+
+      - name: Copy CSS to public
+        run: |
+          mkdir -p public/styles
+          cp figma-design-tokens/output/fixed-token.css public/styles/tokens.css
+
+      - name: Commit & Push changes
+        run: |
+          git config user.name "TirthParikh7"
+          git config user.email "tirth@contentenablers.com"
+          git add public/styles/tokens.css
+          git commit -m "♻️ Auto-update token CSS" || echo "No changes to commit"
+          git push

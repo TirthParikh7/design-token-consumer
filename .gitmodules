@@ -1,0 +1,3 @@
+[submodule "figma-design-tokens"]
+	path = figma-design-tokens
+	url = https://github.com/TirthParikh7/figma-design-tokens.git
