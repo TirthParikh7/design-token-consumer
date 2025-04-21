@@ -24,8 +24,24 @@ jobs:
       - name: Install & run token scripts
         working-directory: ./figma-design-tokens
         run: |
+          echo "Current working directory (before npm): $(pwd)"
+          ls -la
+
+          echo "\nContents of node_modules (before npm):"
+          ls -la node_modules || echo "node_modules directory not found"
+
+          echo "\nRunning npm install..."
           npm install
+
+          echo "\nCurrent working directory (after npm): $(pwd)"
+          ls -la
+
+          echo "\nContents of node_modules (after npm):"
+          ls -la node_modules || echo "node_modules directory not found"
+
+          echo "\nAttempting to run fixed-tokens.js..."
           node fixed-tokens.js
+          echo "\nAttempting to run build.cjs..."
           node build.cjs
 
       - name: Copy CSS to public/styles
