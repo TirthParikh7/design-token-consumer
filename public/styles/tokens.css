@@ -1,3 +1,4 @@
 .fixed-tokens-theme {
-  --base-primary-color: #d92828;
+  --button-primary-color: #d91d1d;
+  --button-primary-border-radius: 10px;
 }
